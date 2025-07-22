@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
+import 'global_cart.dart';
 
 class DetailPage extends StatefulWidget {
   final String name;
@@ -20,6 +22,7 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   int quantity = 2;
+  List<Map<String, dynamic>> cart = [];
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +220,32 @@ class _DetailPageState extends State<DetailPage> {
           const Text("/kg", style: TextStyle(color: Colors.white70)),
           const Spacer(),
           ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              final existingIndex = GlobalCart.cart.indexWhere(
+                (item) => item['name'] == widget.name,
+              );
+              if (existingIndex != -1) {
+                GlobalCart.cart[existingIndex]['quantity'] += quantity;
+              } else {
+                GlobalCart.cart.add({
+                  'name': widget.name,
+                  'image': widget.image,
+                  'price': widget.price,
+                  'rating': widget.rating,
+                  'quantity': quantity,
+                });
+              }
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Added to cart!'),
+                  backgroundColor: Color(0xFFFFA500),
+                ),
+              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
             icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
             label: const Text(
               "Add to cart",

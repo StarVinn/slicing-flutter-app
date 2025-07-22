@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'detail_page.dart';
+import 'cart.dart';
+import 'global_cart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +18,13 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+    if (index == 2) {
+      // index 2 untuk icon shopping_cart
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CartPage(cart: GlobalCart.cart)),
+      );
+    }
   }
 
   final List<Map<String, dynamic>> categoryList = [
