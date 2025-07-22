@@ -19,17 +19,22 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
     if (index == 2) {
-      // index 2 untuk icon shopping_cart
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => CartPage(cart: GlobalCart.cart)),
-      );
+        MaterialPageRoute(
+          builder: (context) => CartPage(cart: GlobalCart.cart),
+        ),
+      ).then((_) {
+        setState(() {
+          _selectedIndex = 0; // Kembali ke Home setelah Cart
+        });
+      });
     }
   }
 
   final List<Map<String, dynamic>> categoryList = [
     {'icon': Icons.apple, 'label': 'Fruits'},
-    {'icon': Icons.icecream, 'label': 'Dairy'},
+    {'icon': Icons.icecream, 'label': 'Dairy'}, 
     {'icon': Icons.eco, 'label': 'Vegeta'},
     {'icon': Icons.set_meal, 'label': 'Meat'},
     {'icon': Icons.local_drink, 'label': 'Milk'},
